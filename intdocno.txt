@@ -1,0 +1,121 @@
+Sub IncrementAlpha()
+Dim c As Range
+For Each c In Range(Cells(1, 1), Cells(Rows.Count, 1).End(xlUp))
+    If Not IsNumeric(Left(c, 1)) Then c.Offset(0, 1) = Chr(Asc(c) + 1)
+Next c
+End Sub
+
+Sub intdcno()
+
+Dim tekred As Integer
+Dim var As String
+
+tekred = 1
+
+While Range("A" & tekred) <> ""
+    
+    last = Right(Range("A" & tekred), 1)
+    
+    If IsNumeric(last) = True Then
+        'MsgBox "Broj"
+        If last = 9 Then
+            lastS = "A"
+        Else
+            lastS = last + 1
+        End If
+            
+    Else
+        'MsgBox "Slovo"
+        If last = "Z" Then
+            lastS = 0
+        Else
+            lastS = Chr(Asc(last) + 1)
+        End If
+    
+    End If
+    
+    Range("B" & tekred) = Mid(Range("A" & tekred), 1, 7) & lastS
+    
+    tekred = tekred + 1
+
+Wend
+
+End Sub
+
+
+Sub intdcnoTest()
+
+Dim tekred As Integer
+Dim var As String
+
+tekred = 1
+
+While Range("A" & tekred) <> ""
+    x = 8
+    last = Mid(Range("A" & tekred), x, 1)
+    
+    If IsNumeric(last) = True Then
+        If last = 9 Then
+            lastS = "A"
+        Else
+            lastS = last + 1
+        End If
+        
+        Range("B" & tekred) = Mid(Range("A" & tekred), 1, 7) & lastS
+        
+    Else
+        If last = "Z" Then
+        lastU = ""
+            Do While lastU = ""
+                slovo = Mid(Range("A" & tekred), x, 1)
+            If slovo = "Z" Then
+                x = x - 1
+                Else
+                    If IsNumeric(slovo) Then
+                        lastU = slovo + 1
+                    Else
+                        lastU = Chr(Asc(slovo) + 1)
+                    End If
+                    Range("B" & tekred) = Left(Range("A" & tekred), x - 1) & lastU & String(Len(Range("A" & tekred)) - x, "0")
+        End If
+    
+            Loop
+            
+        Else
+            lastS = Chr(Asc(last) + 1)
+            Range("B" & tekred) = Mid(Range("A" & tekred), 1, 7) & lastS
+        End If
+        
+    End If
+    
+    tekred = tekred + 1
+
+Wend
+
+End Sub
+
+
+Sub zi()
+
+Dim tekred As Integer, x As Integer
+
+x = 8
+Do While lastU = ""
+slovo = Mid(Range("A" & tekred), x, 1)
+    If slovo = "Z" Then
+        x = x - 1
+    Else
+        If IsNumeric(slovo) Then
+            lastU = slovo + 1
+        Else
+            lastU = Chr(Asc(slovo) + 1)
+        End If
+    End If
+    
+Loop
+
+Range("B" & tekred) = Left(Range("A" & tekred), x - 1) & lastU & String(Len(Range("A" & tekred)) - x, "0")
+
+
+
+End Sub
