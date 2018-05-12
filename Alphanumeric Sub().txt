@@ -1,0 +1,65 @@
+Sub Increase_intdocno_test()
+
+Dim tekred As Integer 'Variable for a current row; replace if with CurrRow if you prefer English version
+Dim x As Byte         'x takes lenght of input string; makes it possible to use any lenght of a string
+Dim last As String, last_L As String, last_BZ As String 'last as current last letter; last_L as last letter -> will be handed to final string; last_BZ as last Before Z
+
+tekred = 2
+
+While Range("A" & tekred) <> ""
+
+    x = Len(Range("A" & tekred))
+    last = Mid(Range("A" & tekred), x, 1)
+    
+    If IsNumeric(last) = True Then 'If last letter is number
+        
+        If last = 9 Then           'If last letter is 9
+            last_L = "A"
+        Else
+            last_L = last + 1
+        End If
+        Range("B" & tekred) = Mid(Range("A" & tekred), 1, x - 1) & last_L
+        
+    Else    'If last letter is a letter
+        
+        If UCase(last) = "Z" Then   'If that letter is "Z"
+        
+			last_BZ = ""
+            Do While last_BZ = ""
+                If x = 0 Then
+                    Range("B" & tekred) = String(Len(Range("A" & tekred)), "0")
+					last_BZ = "ER" 'just added some value to end loop
+                Else
+				
+                    last = Mid(Range("A" & tekred), x, 1)
+                    If UCase(last) = "Z" Then
+                        x = x - 1
+                    Else
+                        If IsNumeric(last) Then
+                            If last = 9 Then 'If before Z comes 9
+                                last_BZ = "A"
+                            Else
+                                last_BZ = last + 1
+                            End If
+                        Else
+                            last_BZ = Chr(Asc(last) + 1)
+                        End If
+                        Range("B" & tekred) = Left(Range("A" & tekred), x - 1) & last_BZ & String(Len(Range("A" & tekred)) - x, "0")
+                    End If
+					
+                End If
+                Loop
+        Else
+            
+      last_L = Chr(Asc(last) + 1)
+      Range("B" & tekred) = Mid(Range("A" & tekred), 1, x - 1) & last_L
+
+        End If
+
+    End If
+
+    tekred = tekred + 1
+
+Wend
+
+End Sub
