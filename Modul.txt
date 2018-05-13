@@ -1,0 +1,68 @@
+Function IsCapital(ByVal arg As String) As Boolean 'credit for this one goes to someone on stackoverflow, mr.excel or sth like it
+    If Left(arg, 1) = UCase(Left(arg, 1)) Then
+        IsCapital = True
+    Else
+        IsCapital = False
+End If
+End Function
+
+Function AscAvgL(Character As Variant)
+Dim Lenght As Byte, x As Byte
+Dim Value As Integer
+'Returns average ASCII value of a characters in string,numbers excluded
+Lenght = Len(Character)
+x = 0
+
+For Lenght = 1 To Lenght
+
+    If IsNumeric(Mid(Character, Lenght, 1)) = False Then
+        Value = Asc(Mid(Character, Lenght))
+        x = x + 1
+        AscAvgL = AscAvgL + Value
+    End If
+    
+Next Lenght
+If x = 0 Then
+    Exit Function
+Else
+AscAvg = AscAvg / x
+End If
+
+End Function
+
+
+
+Function AscAvg(Character As Variant)
+Dim Lenght As Byte, x As Byte
+Dim Value As Integer
+
+'Returns average ASCII value of a characters in string, numbers included
+Lenght = Len(Character)
+x = 0
+
+For Lenght = 1 To Lenght
+
+    Value = Asc(Mid(Character, Lenght))
+    x = x + 1
+    AscAvg = AscAvg + Value
+    
+Next Lenght
+
+AscAvg = AscAvg / x
+
+End Function
+
+
+
+Function AscSum(Character As Variant)
+Dim Lenght As Byte, x As Byte
+Dim Value As Integer
+
+'Returns sum of ASCII characters in string, numbers included
+Lenght = Len(Character)
+For Lenght = 1 To Lenght
+    Value = Asc(Mid(Character, Lenght))
+    AscSum = AscSum + Value
+Next Lenght
+
+End Function

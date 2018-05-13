@@ -1,8 +1,7 @@
-Sub Increase_intdocno_test()
-
 Dim tekred As Integer 'Variable for a current row; replace if with CurrRow if you prefer English version
 Dim x As Byte         'x takes lenght of input string; makes it possible to use any lenght of a string
 Dim last As String, last_L As String, last_BZ As String 'last as current last letter; last_L as last letter -> will be handed to final string; last_BZ as last Before Z
+Dim StringSum As Integer
 
 tekred = 2
 
@@ -14,7 +13,12 @@ While Range("A" & tekred) <> ""
     If IsNumeric(last) = True Then 'If last letter is number
         
         If last = 9 Then           'If last letter is 9
-            last_L = "A"
+        StringSum = AscAvgL(Range("A" & tekred))
+            If StringSum > 92 And StringSum < 122 Then
+                last_L = "a"
+            Else
+                last_L = "A"
+            End If
         Else
             last_L = last + 1
         End If
@@ -24,20 +28,22 @@ While Range("A" & tekred) <> ""
         
         If UCase(last) = "Z" Then   'If that letter is "Z"
         
-			last_BZ = ""
+            last_BZ = ""
             Do While last_BZ = ""
                 If x = 0 Then
                     Range("B" & tekred) = String(Len(Range("A" & tekred)), "0")
-					last_BZ = "ER" 'just added some value to end loop
+                    last_BZ = "ER" 'just added some value to end loop
                 Else
-				
+                
                     last = Mid(Range("A" & tekred), x, 1)
                     If UCase(last) = "Z" Then
                         x = x - 1
                     Else
                         If IsNumeric(last) Then
-                            If last = 9 Then 'If before Z comes 9
+                            If last = 9 And IsCapital(Mid(Range("A" & tekred), x + 1, 1)) = True Then 'If before Z comes 9, also taking care that it's turned to A if previous Z was capital or a if it was "z" - lower case
                                 last_BZ = "A"
+                            ElseIf last = 9 And IsCapital(Mid(Range("A" & tekred), x + 1, 1)) = False Then
+                                last_BZ = "a"
                             Else
                                 last_BZ = last + 1
                             End If
@@ -46,7 +52,7 @@ While Range("A" & tekred) <> ""
                         End If
                         Range("B" & tekred) = Left(Range("A" & tekred), x - 1) & last_BZ & String(Len(Range("A" & tekred)) - x, "0")
                     End If
-					
+                    
                 End If
                 Loop
         Else
